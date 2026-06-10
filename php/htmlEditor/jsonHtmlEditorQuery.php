@@ -11,6 +11,7 @@
 //# Date        By      Description                          #
 //# ----------  ------  ------------------------------------ #
 //# 2020-10-18  PatSjo  Initial version                      #
+//# 2026-05-09  blajo   Hendle reserved word 'GROUPS'        #
 //############################################################
 
 include_once($_SERVER["DOCUMENT_ROOT"] . "/include/db.php");
@@ -116,9 +117,9 @@ elseif ($input->iType == "PAGE")
     }
   }
   \db\mysql_free_result($result);
-  $sql = "SELECT groups.group_id, groups.description, HTMLEDITOR_GROUPS.GROUP_ID AS selected_group_id " .
-    "FROM groups " .
-    "LEFT OUTER JOIN HTMLEDITOR_GROUPS ON (groups.group_id = HTMLEDITOR_GROUPS.GROUP_ID AND HTMLEDITOR_GROUPS.PAGE_ID = " . $input->iPageID . ") ";
+  $sql = "SELECT `groups`.group_id, `groups`.description, HTMLEDITOR_GROUPS.GROUP_ID AS selected_group_id " .
+    "FROM `groups` " .
+    "LEFT OUTER JOIN HTMLEDITOR_GROUPS ON (`groups`.group_id = HTMLEDITOR_GROUPS.GROUP_ID AND HTMLEDITOR_GROUPS.PAGE_ID = " . $input->iPageID . ") ";
 
   $result = \db\mysql_query($sql);
   if (!$result)

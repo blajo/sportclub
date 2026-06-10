@@ -191,7 +191,7 @@ elseif ($input->iType == "DOMAINS")
   }
   \db\mysql_free_result($result);
 
-  $sql = "SELECT * FROM groups WHERE UPPER(show_in_calendar) = 'YES' ORDER BY DESCRIPTION ASC";
+  $sql = "SELECT * FROM `groups` WHERE UPPER(show_in_calendar) = 'YES' ORDER BY DESCRIPTION ASC";
   $result = \db\mysql_query($sql);
   if (!$result)
   {

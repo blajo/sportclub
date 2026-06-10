@@ -17,7 +17,7 @@ const getMenuLevels = (
   parentFolderId: number | undefined,
   parentMenuPath: string = '/'
 ): IMenu => ({
-  menuItems: splittedMenus
+  menuItems: (splittedMenus || [])
     .filter(m => m.menuPaths.length === level)
     .map(m => ({
       pageId: m.pageId,
@@ -29,7 +29,7 @@ const getMenuLevels = (
       level: level,
       createdByUserId: m.createdByUserId
     })),
-  subMenus: splittedMenus
+  subMenus: (splittedMenus || [])
     .filter(
       (m, index, self) =>
         m.menuPaths.length > level && index === self.findIndex(m2 => m.menuPaths[level - 1] === m2.menuPaths[level - 1])
@@ -53,7 +53,7 @@ const getMenuLevels = (
       };
     })
     .concat(
-      foldersResponse
+      (foldersResponse || [])
         .filter(folder => folder.parentFolderId === parentFolderId)
         .map(folder => ({
           menuPath: `${parentMenuPath}${folder.folderName}`,

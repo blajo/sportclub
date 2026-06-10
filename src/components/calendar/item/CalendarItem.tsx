@@ -82,10 +82,10 @@ const CalendarItem = observer(({ calendarObject, domains, children }: ICalendarI
             {calendarObject.time ? `, ${calendarObject.time}` : ''}
           </CalendarTime>
           <CalendarText>{`${t('calendar.ActivityType')}: ${
-            domains.activityTypes.find(activityType => activityType.code === calendarObject.activityTypeId)?.description
+            domains.activityTypes?.find(activityType => activityType.code === calendarObject.activityTypeId)?.description
           }`}</CalendarText>
           <CalendarText>{`${t('calendar.Group')}: ${
-            domains.groups.find(group => group.code === calendarObject.groupId)?.description
+            domains.groups?.find(group => group.code === calendarObject.groupId)?.description
           }`}</CalendarText>
           {calendarObject.place ? (
             <CalendarText>{`${t('calendar.Place')}: ${calendarObject.place}`}</CalendarText>
@@ -102,7 +102,7 @@ const CalendarItem = observer(({ calendarObject, domains, children }: ICalendarI
             ) : null}
           </CalendarText>
           <CalendarBy>
-            {domains.users.find(user => user.code === calendarObject.responsibleUserId)?.description}
+            {domains.users?.find(user => user.code === calendarObject.responsibleUserId)?.description}
           </CalendarBy>
         </ContentHolder>
       }
