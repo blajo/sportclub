@@ -6,6 +6,8 @@ import { styled } from 'styled-components';
 const Dashboard = lazy(() => import('./components/dashboard/Dashboard'));
 const Maps = lazy(() => import('./components/map/Maps'));
 const MapTracks = lazy(() => import('./components/map/MapTracks'));
+const EventMap = lazy(() => import('./components/map/EventMap'));
+const EventMapAdmin = lazy(() => import('./components/map/EventMapAdmin'));
 const News = lazy(() => import('./components/news/News'));
 const UsersAndCompetitors = lazy(() => import('./components/users/UsersAndCompetitors'));
 const League = lazy(() => import('./components/results/League'));
@@ -47,6 +49,10 @@ const AppContent = observer(() => {
         <Route path="/spårkartor" element={<MapTracks />} />
         <Route path="/maps" element={<Maps />} />
         <Route path="/kartor" element={<Maps />} />
+        <Route path="/eventmap/admin" element={<EventMapAdmin key="eventMapAdmin" />} />
+        <Route path="/arrangemangskarta/admin" element={<EventMapAdmin key="eventMapAdmin" />} />
+        <Route path="/eventmap" element={<EventMap key="eventMap" />} />
+        <Route path="/arrangemangskarta" element={<EventMap key="eventMap" />} />
         <Route path="/news" element={<News key="news" />} />
         <Route path="/users" element={<UsersAndCompetitors key="users" />} />
         <Route path="/calendar/eventselector" element={<EventSelector key="eventSelector" />} />

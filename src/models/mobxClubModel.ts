@@ -8,6 +8,7 @@ type ModuleNameTypes =
   | 'Stars'
   | 'ScoringBoard'
   | 'Eventor'
+  | 'EventMap'
   | 'Results'
   | 'Users'
   | 'Photo'
@@ -149,6 +150,7 @@ class Module implements IModule {
   get hasSubMenus() {
     return (
       this.name !== 'Eventor' &&
+      this.name !== 'EventMap' &&
       this.name !== 'ScoringBoard' &&
       this.name !== 'Stars' &&
       this.name !== 'HTMLEditor' &&

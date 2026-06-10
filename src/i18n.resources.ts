@@ -165,7 +165,8 @@ export const resources = {
         showTrackByDefault: 'Show track by default',
         hideTrackByDefault: 'Hide track by default',
         uploadGpx: 'Upload GPX file',
-        gpxImported: 'GPX file imported'
+        gpxImported: 'GPX file imported',
+        requireLogin: 'You must be logged in to see the map.'
       },
       modules: {
         Home: 'Home',
@@ -175,6 +176,7 @@ export const resources = {
         ScoringBoard: 'Club leagues',
         Stars: 'Stars',
         Eventor: 'Eventor',
+        EventMap: 'Event map',
         Results: 'Results',
         Users: 'Club members',
         Photo: 'Photo',
@@ -449,7 +451,41 @@ export const resources = {
         bronze: 'Bronze',
         top10: 'Top 10',
         top30: 'Top 30'
-      }
+      },
+      eventmap: {
+        Championship: 'Championship competition',
+        National: 'National competition',
+        District: 'District competition',
+        Near: 'Near event',
+        Club: 'Club event',
+        International: 'International competition',
+        Title: 'Event',
+        ManageEvents: 'Manage events',
+        Places: 'Places',
+        AllTypes: 'All types of events',
+        AllYears: 'All years',
+        Loading: 'Fetching events from Eventor…',
+        Error: 'Could not fetch events from Eventor, please try again later.',
+        UnknownDate: 'Unknown date',
+        Starts: 'Starts',
+        OpenInEventor: 'Open in Eventor',
+        LegendEventor: 'Eventor events',
+        LegendLegacy: 'Older events, before Eventor',
+        MissingConfig: 'Missing configuration for event map, please contact the administrator',
+        Saved: 'Event saved',
+        Deleted: 'Event deleted',
+        Name: 'Name',
+        Date: 'Date',
+        EventId: 'Id (unique, e.g. "legacy-1998-winter")',
+        Type: 'Event Type',
+        PickOnMap: 'Pick on map',
+        PickHint: 'Click on the map to place the event, or drag the marker to fine-tune.',
+        Longitude: 'Longitude',
+        Latitude: 'Latitude',
+        StartCount: 'Number of starts',
+        Url: 'Link (optional)',
+        AdminOnly: 'Only administrators can edit events.'
+    }
     }
   },
   sv: {
@@ -616,7 +652,8 @@ export const resources = {
         showTrackByDefault: 'Visa spår som standard',
         hideTrackByDefault: 'Dölj spår som standard',
         uploadGpx: 'Ladda upp GPX fil',
-        gpxImported: 'GPX fil importerad'
+        gpxImported: 'GPX fil importerad',
+        requireLogin: 'Du måste vara inloggad för att se kartan.'
       },
       modules: {
         Home: 'Startsida',
@@ -626,6 +663,7 @@ export const resources = {
         ScoringBoard: 'Klubbligor',
         Stars: 'Stjärnorna',
         Eventor: 'Eventor',
+        EventMap: 'Arrangemangskarta',
         Results: 'Resultat',
         Users: 'Klubbmedlemmar',
         Photo: 'Foto',
@@ -901,6 +939,40 @@ export const resources = {
         bronze: 'Brons',
         top10: 'Top 10',
         top30: 'Top 30'
+      },
+      eventmap: {
+        Championship: 'Mästerskapstävling',
+        National: 'Nationell tävling',
+        District: 'Distriktstävling',
+        Near: 'Närtävling',
+        Club: 'Klubbtävling',
+        International: 'Internationell tävling',
+        Title: 'Arrangemang',
+        ManageEvents: 'Hantera arrangemang',
+        Places: 'platser',
+        AllTypes: 'Alla tävlingstyper',
+        AllYears: 'Alla år',
+        Loading: 'Hämtar arrangemang från Eventor…',
+        Error: 'Kunde inte hämta data från Eventor, försök igen senare.',
+        UnknownDate: 'Okänt datum',
+        Starts: 'starter',
+        OpenInEventor: 'Öppna i Eventor',
+        LegendEventor: 'Eventor-arrangemang',
+        LegendLegacy: 'Äldre arrangemang (före Eventor)',
+        MissingConfig: 'Konfiguration saknas för arrangemangskartan, kontakta administratören',
+        Saved: 'Arrangemanget sparades',
+        Deleted: 'Arrangemanget togs bort',
+        Name: 'Namn',
+        Date: 'Datum',
+        EventId: 'Id (unikt, t.ex. "legacy-1998-vinter")',
+        Type: 'Tävlingstyp',
+        PickOnMap: 'Välj plats på kartan',
+        PickHint: 'Klicka på kartan för att placera arrangemanget, eller dra markören för att finjustera.',
+        Longitude: 'Longitud (WGS-84)',
+        Latitude: 'Latitud (WGS-84)',
+        StartCount: 'Antal starter',
+        Url: 'Länk (frivillig)',
+        AdminOnly: 'Endast administratörer kan redigera arrangemang.'
       }
     }
   }

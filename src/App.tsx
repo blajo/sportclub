@@ -4,7 +4,7 @@ import { Link, BrowserRouter as Router } from 'react-router-dom';
 import { styled, ThemeProvider } from 'styled-components';
 import AppContent from './AppContent';
 import Toolbar from './components/toolbar/Toolbar';
-import clubJson from './models/clubs/okorion';
+import clubJson from './models/clubs/njurundaok';
 import { GlobalStateModel } from './models/globalStateModel';
 import { IThemeProps, MobxClubModel } from './models/mobxClubModel';
 import { getLocalStorage, SessionModel } from './models/sessionModel';

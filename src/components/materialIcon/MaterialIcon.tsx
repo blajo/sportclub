@@ -21,6 +21,7 @@ import {
   PicRightOutlined,
   PictureOutlined,
   PlusOutlined,
+  PushpinOutlined,
   RollbackOutlined,
   SmileOutlined,
   StarOutlined,
@@ -66,7 +67,8 @@ export type MaterialIconsType =
   | 'PhotoIcon'
   | 'ScoringBoardIcon'
   | 'StarsIcon'
-  | 'EventorIcon';
+  | 'EventorIcon'
+  | 'EventMapIcon';
 
 interface IMaterialIconProps {
   icon: MaterialIconsType | React.ReactElement;
@@ -145,6 +147,8 @@ const MaterialIcon = ({ icon, fontSize, marginRight }: IMaterialIconProps) => {
           style={{ marginRight: marginRight }}
         />
       );
+    case 'EventMapIcon':
+     return <PushpinOutlined style={{ verticalAlign: 'middle', fontSize: fontSize }} />;
     default:
       return icon;
   }
