@@ -38,6 +38,7 @@ const Toolbar = observer(() => {
             disabled={
               module.name !== 'News' &&
               module.name !== 'Eventor' &&
+              module.name !== 'EventMap' &&
               module.name !== 'ScoringBoard' &&
               module.name !== 'Stars'
             }
@@ -57,6 +58,9 @@ const Toolbar = observer(() => {
                   break;
                 case 'Stars':
                   globalStateModel.setDashboard(navigate, '/competitor/presentation');
+                  break;
+                case 'EventMap':
+                  globalStateModel.setDashboard(navigate, '/eventmap');
                   break;
                 default:
                   return null;

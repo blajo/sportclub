@@ -31,6 +31,13 @@ export const useModuleSubMenu = () => {
               }
             })
           ];
+        case 'EventMap':
+          return [
+            getMenuItem('menuItem#eventorMap', 'EventMapIcon', t('modules.EventMap'), () => {
+              globalStateModel.setRightMenuVisible(false);
+              globalStateModel.setDashboard(navigate, '/eventmap');
+            })
+          ];
         case 'ScoringBoard':
           return [
             getMenuItem('menuItem#scoringBoard', 'ScoringBoardIcon', t('modules.ScoringBoard'), () => {
