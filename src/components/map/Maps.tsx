@@ -13,11 +13,15 @@ const MapContainer = styled.div`
 `;
 
 const Maps = () => {
-  const { globalStateModel, clubModel } = useMobxStore();
+  const { globalStateModel, clubModel, sessionModel } = useMobxStore();
 
   useEffect(() => {
     globalStateModel.setGraphics(['calendar', 'event'], []);
   }, [globalStateModel]);
+
+  if (!sessionModel.loggedIn) {
+    return <div>t('map.requireLogin')</div>;
+  }
 
   return (
     <MapContainer>

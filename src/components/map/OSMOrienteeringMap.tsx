@@ -189,7 +189,7 @@ const OSMOrienteeringMap = observer(
     onHighlightClick = undefined,
     onLoaded = undefined
   }: IOSMOrienteeringMapProps) => {
-    const { globalStateModel, clubModel } = useMobxStore();
+    const { globalStateModel, clubModel, sessionModel } = useMobxStore();
     const { t } = useTranslation();
     const [graphicsLayer, setGraphicsLayer] = React.useState<VectorLayer | undefined>();
     const map = useOpenLayersMap();
@@ -342,7 +342,10 @@ const OSMOrienteeringMap = observer(
         map.addControl(homeExtent.current);
 
         if (useAllWidgets) {
-          map.addControl(new FullScreen());
+          // Kontrollera om användaren är inloggad
+          if (sessionModel.loggedIn) {
+            map.addControl(new FullScreen());
+          }
           map.addControl(new LayerListControl({ setLayerListVisible }));
           map.addControl(new TrackingControl({ map, view: map.getView(), containerId, t, setTrackingText }));
         }
