@@ -173,14 +173,14 @@ export const styleFunction = (feature: FeatureLike, resolution: number): Style |
         stroke: new Stroke({
           color: lineColor,
           width: 3,
-          offset: -5
+          offset: -4
         })
       }),
       new Style({
         stroke: new Stroke({
           color: lineColor,
           width: 3,
-          offset: 5
+          offset: 4
         })
       })
     );
@@ -266,6 +266,17 @@ export const styleFunction = (feature: FeatureLike, resolution: number): Style |
     ...kmStyles
   ];
 };
+const hexToRgba = (hex: string, opacity: number): string => {
+  const cleanHex = hex.replace('#', '');
+
+  const bigint = parseInt(cleanHex, 16);
+
+  const r = (bigint >> 16) & 255;
+  const g = (bigint >> 8) & 255;
+  const b = bigint & 255;
+
+  return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+};
 export const getFillColorsFromSvg = (svgString: string | undefined): string[] => {
   if (!svgString) return [];
   const regex = /fill=["']#([^"']+)["']/g;
@@ -276,12 +287,22 @@ export const getFillColorsFromSvg = (svgString: string | undefined): string[] =>
   }
   return colors;
 };
-export const getFillColorFromSvg = (svgString: string | undefined, index = 0): string => {
+export const getFillColorFromSvg = (
+  svgString: string | undefined,
+  index = 0,
+  opacity = 0.5
+): string => {
   const fallback = '#aa00aa';
+
   if (!svgString) return fallback;
+
   const colors = getFillColorsFromSvg(svgString);
+
   if (index < 0) index = 0;
-  return colors.length >= index ? colors[index] : fallback;
+
+  const color = colors.length > index ? colors[index] : fallback;
+
+  return hexToRgba(color, opacity);
 };
 
 interface IEditableMapTracksLayerProps {

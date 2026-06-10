@@ -12,6 +12,7 @@ import {
   ClassicEditor,
   Essentials,
   Heading,
+  HorizontalLine,
   Image,
   ImageCaption,
   ImageInsert,
@@ -92,6 +93,7 @@ const CustomCKEditor = observer(({ data, isReadOnly, onReady }: ICustomCKEditor)
             Bold,
             Essentials,
             Heading,
+            HorizontalLine,
             Image,
             ImageCaption,
             ImageInsert,
@@ -113,6 +115,9 @@ const CustomCKEditor = observer(({ data, isReadOnly, onReady }: ICustomCKEditor)
             TableToolbar,
             TextTransformation
           ],
+          mediaEmbed: {
+            previewsInData: true
+          },
           image: {
             styles: { options: ['alignLeft', 'alignCenter', 'alignRight'] },
             resizeOptions: [
@@ -154,6 +159,7 @@ const CustomCKEditor = observer(({ data, isReadOnly, onReady }: ICustomCKEditor)
               'link',
               'bulletedList',
               'numberedList',
+              'HorizontalLine',
               '|',
               'indent',
               'outdent',
