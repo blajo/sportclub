@@ -122,7 +122,7 @@ const HtmlEditor = observer(({ pageIdFromLocation }: IHtmlEditorProps) => {
           form.setFieldsValue({
             iPageID: pageResponse.pageId,
             iMenuPath: pageResponse.pageId > 0 ? pageResponse.menuPath : DefaultMenuPath,
-            iGroupIds: pageResponse.groups.filter(group => group.selected).map(group => group.groupId)
+            iGroupIds: pageResponse.groups?.filter(group => group.selected).map(group => group.groupId)
           });
         }
       })
@@ -210,7 +210,7 @@ const HtmlEditor = observer(({ pageIdFromLocation }: IHtmlEditorProps) => {
               initialValues={{
                 iPageID: pageId,
                 iMenuPath: menuPath,
-                iGroupIds: groups.filter(group => group.selected).map(group => group.groupId)
+                iGroupIds: groups?.filter(group => group.selected).map(group => group.groupId)
               }}
               onValuesChange={() => hasErrors(form).then(notValid => setValid(!notValid))}
             >

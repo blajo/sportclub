@@ -65,7 +65,7 @@ if (\db\mysql_num_rows($result) > 0)
 
 \db\mysql_free_result($result);
 
-$sql = "SELECT GROUP_ID, NAME, DESCRIPTION, EMAIL, SHOW_IN_CALENDAR FROM groups ";
+$sql = "SELECT GROUP_ID, NAME, DESCRIPTION, EMAIL, SHOW_IN_CALENDAR FROM `groups` ";
 
 $result = \db\mysql_query($sql);
 if (!$result)
