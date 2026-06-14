@@ -12,6 +12,7 @@
 //# ----------  ------  ------------------------------------ #
 //# 2020-10-18  PatSjo  Initial version                      #
 //# 2026-05-09  blajo   Hendle reserved word 'GROUPS'        #
+//# 2026-06-15  JohBla  Fix for not logged in users          #
 //############################################################
 
 include_once($_SERVER["DOCUMENT_ROOT"] . "/include/db.php");
@@ -21,8 +22,11 @@ include_once($_SERVER["DOCUMENT_ROOT"] . "/include/users.php");
 cors();
 
 session_start();
-global $user_id;
 setUserID();
+global $user_id;
+if (!isset($user_id)) {
+  $user_id = 0;
+}
 
 // Takes raw data from the request
 $json = file_get_contents('php://input');
