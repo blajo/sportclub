@@ -18,6 +18,7 @@
 //# 2021-08-21  PatSjo  Change to JSON in and out            #
 //# 2022-04-17  PatSjo  Added exclude competitor             #
 //# 2025-12-09  PatSjo  Fix fees sql                         #
+//# 2026-06-15  JohBla  Fix for not logged in users          #
 //############################################################
 
 include_once($_SERVER["DOCUMENT_ROOT"] . "/include/db.php");
@@ -26,8 +27,11 @@ include_once($_SERVER["DOCUMENT_ROOT"] . "/include/users.php");
 
 cors();
 
-global $user_id;
 setUserID();
+global $user_id;
+if (!isset($user_id)) {
+  $user_id = 0;
+}
 $isCoach = $user_id > 0 && (ValidGroup($cCOACH_GROUP_ID) || ValidGroup($cADMIN_GROUP_ID));
 
 // Takes raw data from the request

@@ -9,6 +9,7 @@
 //# Date        By      Description                          #
 //# ----------  ------  ------------------------------------ #
 //# 2024-02-03  PatSjo  Initial version                      #
+//# 2026-06-15  JohBla  Fix for not logged in users          #
 //############################################################
 
 include_once($_SERVER["DOCUMENT_ROOT"] . "/include/db.php");
@@ -18,8 +19,11 @@ include_once($_SERVER["DOCUMENT_ROOT"] . "/include/users.php");
 cors();
 
 session_start();
-global $user_id;
 setUserID();
+global $user_id;
+if (!isset($user_id)) {
+  $user_id = 0;
+}
 $isAdmin = $user_id > 0 && ValidGroup($cADMIN_GROUP_ID);
 
 // Takes raw data from the request
@@ -33,6 +37,7 @@ function compareByMenuPath($a, $b) {
 
 function getFolders($isAdmin, $iParentFolderID = 0, $iPath = "/")
 {
+  global $user_id;
   $rows = array();
   $query = sprintf("SELECT folder_id, folder_name, pre_story, post_story, need_password, allowed_group_id, cre_by_user_id FROM folders WHERE folder_id != 1 AND parent_folder_id = %d AND (UPPER(need_password) != 'YES' OR ",
                    $iParentFolderID);
@@ -72,6 +77,7 @@ function getFolders($isAdmin, $iParentFolderID = 0, $iPath = "/")
 
 function getFiles($isAdmin, $iParentFolderID = 0, $iPath = "/")
 {
+  global $user_id;
   $rows = array();
   $query = sprintf("SELECT file_id, file_name, cre_by_user_id FROM files WHERE folder_id = %d AND (UPPER(need_password) != 'YES' OR ",
                    $iParentFolderID);
