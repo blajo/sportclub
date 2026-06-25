@@ -19,7 +19,7 @@ $input = json_decode($json);
 
 OpenDatabase();
 
-$sql = "SELECT EVENT_ID, SOURCE, NAME, DATE_FORMAT(EVENT_DATE, '%Y-%m-%d') AS EVENT_DATE, CLASSIFICATION_ID, LONGITUDE, LATITUDE, START_COUNT, URL, ORDER_BY FROM EVENTMAP_EVENTS ORDER BY EVENT_DATE ASC, ORDER_BY ASC";
+$sql = "SELECT EVENT_ID, SOURCE, NAME, DATE_FORMAT(EVENT_DATE, '%Y-%m-%d') AS EVENT_DATE, CLASSIFICATION_ID, LONGITUDE, LATITUDE, START_COUNT, URL, ORDER_BY, EVENT_STATUS FROM EVENTMAP_EVENTS ORDER BY EVENT_DATE ASC, ORDER_BY ASC";
 $result = \db\mysql_query($sql);
 if (!$result)
 {
@@ -40,6 +40,7 @@ if (\db\mysql_num_rows($result) > 0) {
     $x->startCount = is_null($row['START_COUNT']) ? null : intval($row['START_COUNT']);
     $x->url = is_null($row['URL']) ? null : $row['URL'];
     $x->orderBy = intval($row['ORDER_BY']);
+    $x->eventStatus = is_null($row['EVENT_STATUS']) ? null : $row['EVENT_STATUS'];
     array_push($rows, $x);
   }
 }

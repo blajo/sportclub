@@ -1,4 +1,4 @@
-import { Button, DatePicker, Form, Input, InputNumber, Popconfirm, Select, Table, Tag, message } from 'antd';
+import { Button, DatePicker, Form, Input, InputNumber, Popconfirm, Radio, Select, Table, Tag, message } from 'antd';
 import dayjs from 'dayjs';
 import { observer } from 'mobx-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -20,6 +20,7 @@ export interface IEventRow {
   startCount: number | null;
   url: string | null;
   orderBy: number;
+  eventStatus: string | null;
 }
 
 // Form-internal shape: antd's DatePicker works with a dayjs object, not a string.
@@ -30,6 +31,15 @@ const toArray = <T,>(value: T | T[] | undefined): T[] =>
   value == null ? [] : Array.isArray(value) ? value : [value];
 
 const firstRace = (event: IEventorEvent): IEventorEventRace | undefined => toArray(event.EventRace)[0];
+
+// Eventor EventStatusId values:
+// 1 Applied, 2 ApprovedByRegion, 3 Approved, 4 Created, 5 EntryOpened,
+// 6 EntryPaused, 7 EntryClosed, 8 Live, 9 Completed, 10 Canceled, 11 Reported.
+// "Genomförd" = Completed or Reported (a reported event has been held).
+const COMPLETED_STATUS_IDS = new Set(['9', '11']);
+
+const isCompleted = (event: IEventorEvent): boolean =>
+  COMPLETED_STATUS_IDS.has(event.EventStatusId);
 
 // Coordinates live in EventCenterPosition['@attributes'] as lowercase x (lon) / y (lat).
 const extractCoords = (event: IEventorEvent): [number, number] | null => {
@@ -73,6 +83,20 @@ const classificationOptions = (t: (key: string, def: string) => string) => [
   { value: '6', label: t('eventmap.International', 'Internationell tävling') },
 ];
 
+const eventStatusOptions = (t: (key: string, def: string) => string) => [
+  { value: '1', label: t('eventmap.Applied', 'Ansökt') },
+  { value: '2', label: t('eventmap.ApprovedByRegion', 'Godkänd av distriktet') },
+  { value: '3', label: t('eventmap.Approved', 'Godkänd') },
+  { value: '4', label: t('eventmap.Created', 'Skapad') },
+  { value: '5', label: t('eventmap.EntryOpened', 'Anmälan öppnad') },
+  { value: '6', label: t('eventmap.EntryPaused', 'Anmälan pausad') },
+  { value: '7', label: t('eventmap.EntryClosed', 'Anmälan stängd') },
+  { value: '8', label: t('eventmap.Live', 'Live') },
+  { value: '9', label: t('eventmap.Completed', 'Genomförd') },
+  { value: '10', label: t('eventmap.Canceled', 'Inställt') },
+  { value: '11', label: t('eventmap.Reported', 'Rapporterad') },
+];
+
 const EventMapAdmin = observer(() => {
   const { t } = useTranslation();
   const { clubModel, sessionModel } = useMobxStore();
@@ -82,6 +106,8 @@ const EventMapAdmin = observer(() => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [syncing, setSyncing] = useState(false);
+  // Which events to include when syncing: only completed, or all statuses.
+  const [syncOnlyCompleted, setSyncOnlyCompleted] = useState(true);
 
   const moduleConfig = useMemo(
     () => clubModel.modules.find((m) => m.name === 'EventMap'),
@@ -123,7 +149,7 @@ const EventMapAdmin = observer(() => {
   }, [reload]);
 
   // ── Sync from Eventor into the database ──────────
-  const onSyncFromEventor = useCallback(async () => {
+  const onSyncFromEventor = useCallback(async (onlyCompleted: boolean) => {
     const eventor = clubModel.eventor;
     const proxy = clubModel.eventorCorsProxy;
     const saveUrl = moduleConfig?.addUrl ?? moduleConfig?.updateUrl;
@@ -154,6 +180,9 @@ const EventMapAdmin = observer(() => {
       // from the entries endpoint (number of entries ≈ starters).
       const rows: IEventRow[] = [];
       for (const ev of eventList) {
+        // Skip non-completed events when the user chose "only completed".
+        if (onlyCompleted && !isCompleted(ev)) continue;
+
         const coords = extractCoords(ev);
         if (!coords) continue;
 
@@ -188,6 +217,7 @@ const EventMapAdmin = observer(() => {
           startCount,
           url: `${eventor.url}/Show/${ev.EventId}`,
           orderBy: 0,
+          eventStatus: ev.EventStatusId ?? null,
         });
       }
 
@@ -240,6 +270,7 @@ const EventMapAdmin = observer(() => {
           startCount: values.startCount == null ? null : Number(values.startCount),
           url: values.url?.trim() ? values.url.trim() : null,
           orderBy: values.orderBy ?? 0,
+          eventStatus: values.eventStatus ?? null,
         };
 
         await PostJsonData(
@@ -304,6 +335,7 @@ const EventMapAdmin = observer(() => {
         startCount: row.startCount,
         url: row.url,
         orderBy: row.orderBy,
+        eventStatus: row.eventStatus,
       });
     },
     [form]
@@ -346,24 +378,38 @@ const EventMapAdmin = observer(() => {
 
   return (
     <div style={{ maxWidth: 900 }}>
-      <div style={{ marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12 }}>
-        <Popconfirm
-          title={t(
-            'eventmap.ConfirmSync',
-            'Hämta alla arrangemang från Eventor och uppdatera databasen?'
-          )}
-          onConfirm={onSyncFromEventor}
+      <div style={{ marginBottom: 16, display: 'flex', flexDirection: 'column', gap: 10 }}>
+        <Radio.Group
+          value={syncOnlyCompleted}
+          onChange={(e) => setSyncOnlyCompleted(e.target.value)}
         >
-          <Button type="primary" loading={syncing}>
-            {t('eventmap.SyncFromEventor', 'Synka från Eventor')}
-          </Button>
-        </Popconfirm>
-        <span style={{ fontSize: 12, color: '#777' }}>
-          {t(
-            'eventmap.SyncHint',
-            'Lägger till/uppdaterar Eventor-arrangemang. Äldre arrangemang som lagts in för hand påverkas inte.'
-          )}
-        </span>
+          <Radio value={true}>
+            {t('eventmap.SyncOnlyCompleted', 'Bara genomförda arrangemang')}
+          </Radio>
+          <Radio value={false}>
+            {t('eventmap.SyncAllStatuses', 'Alla arrangemang oavsett status')}
+          </Radio>
+        </Radio.Group>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <Popconfirm
+            title={
+              syncOnlyCompleted
+                ? t('eventmap.ConfirmSyncCompleted', 'Hämta genomförda arrangemang från Eventor och uppdatera databasen?')
+                : t('eventmap.ConfirmSyncAll', 'Hämta alla arrangemang (oavsett status) från Eventor och uppdatera databasen?')
+            }
+            onConfirm={() => onSyncFromEventor(syncOnlyCompleted)}
+          >
+            <Button type="primary" loading={syncing}>
+              {t('eventmap.SyncFromEventor', 'Synka från Eventor')}
+            </Button>
+          </Popconfirm>
+          <span style={{ fontSize: 12, color: '#777' }}>
+            {t(
+              'eventmap.SyncHint',
+              'Lägger till/uppdaterar Eventor-arrangemang. Äldre arrangemang som lagts in för hand påverkas inte.'
+            )}
+          </span>
+        </div>
       </div>
 
       <h4>{t('eventmap.AddLegacy', 'Lägg till / redigera äldre arrangemang')}</h4>
@@ -412,6 +458,9 @@ const EventMapAdmin = observer(() => {
         </Form.Item>
         <Form.Item name="orderBy" hidden>
           <InputNumber />
+        </Form.Item>
+        <Form.Item name="eventStatus" label={t('eventmap.EventStatus', 'Arrangemangsstatus')}>
+          <Select allowClear options={eventStatusOptions(t)} />
         </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit" loading={saving}>
