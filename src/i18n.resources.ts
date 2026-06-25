@@ -484,7 +484,22 @@ export const resources = {
         Latitude: 'Latitude',
         StartCount: 'Number of starts',
         Url: 'Link (optional)',
-        AdminOnly: 'Only administrators can edit events.'
+        AdminOnly: 'Only administrators can edit events.',
+        SyncOnlyCompleted: 'Only completed events',
+        SyncAllStatuses: 'All events regardless of status',
+        ConfirmSyncCompleted: 'Fetch completed events from Eventor and update the database?',
+        ConfirmSyncAll: 'Fetch all events (regardless of status) from Eventor and update the database?',
+        Applied: 'Applied',
+        ApprovedByRegion: 'Approved by region',
+        Approved: 'Approved',
+        Created: 'Created',
+        EntryOpened: 'Entry opened',
+        EntryPaused: 'Entry paused',
+        EntryClosed: 'Entry closed',
+        Live: 'Live',
+        Completed: 'Completed',
+        Canceled: 'Canceled',
+        Reported: 'Reported'
     }
     }
   },
@@ -972,7 +987,22 @@ export const resources = {
         Latitude: 'Latitud (WGS-84)',
         StartCount: 'Antal starter',
         Url: 'Länk (frivillig)',
-        AdminOnly: 'Endast administratörer kan redigera arrangemang.'
+        AdminOnly: 'Endast administratörer kan redigera arrangemang.',
+        SyncOnlyCompleted: 'Bara genomförda arrangemang',
+        SyncAllStatuses: 'Alla arrangemang oavsett status',
+        ConfirmSyncCompleted: 'Hämta genomförda arrangemang från Eventor och uppdatera databasen?',
+        ConfirmSyncAll: 'Hämta alla arrangemang (oavsett status) från Eventor och uppdatera databasen?',
+        Applied: 'Ansökt',
+        ApprovedByRegion: 'Godkänd av distriktet',
+        Approved: 'Godkänd',
+        Created: 'Skapad',
+        EntryOpened: 'Anmälan öppnad',
+        EntryPaused: 'Anmälan pausad',
+        EntryClosed: 'Anmälan stängd',
+        Live: 'Live',
+        Completed: 'Genomförd',
+        Canceled: 'Inställt',
+        Reported: 'Rapporterad'
       }
     }
   }

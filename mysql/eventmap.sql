@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS EVENTMAP_EVENTS (
   START_COUNT         INT           NULL,                    -- number of starters (optional)
   URL                 VARCHAR(500)  NULL,                    -- link to the event (Eventor page, result page, ...)
   ORDER_BY            INT           NOT NULL DEFAULT 0,
+  EVENT_STATUS        VARCHAR(4)    NULL,                    -- 1..12 (Eventor Status scale)
   PRIMARY KEY (EVENT_ID, SOURCE),
   INDEX IDX_EVENTMAP_SOURCE (SOURCE)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

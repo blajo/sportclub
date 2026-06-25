@@ -34,6 +34,7 @@ interface IClubEvent {
   startCount: number | null;
   url: string;
   source: 'eventor' | 'legacy';
+  eventStatus: string | null;
 }
 
 // Row shape returned by jsonEventMapQuery.php (both eventor and legacy events)
@@ -48,6 +49,7 @@ interface IEventRow {
   startCount: number | null;
   url: string | null;
   orderBy: number;
+  eventStatus: string | null;
 }
 
 interface IPopupData {
@@ -56,6 +58,7 @@ interface IPopupData {
   startCount: number | null;
   url: string;
   classificationId: string | null;
+  eventStatus: string | null;
 }
 
 // ─────────────────────────────────────────────
@@ -234,6 +237,23 @@ const EventMap = observer(() => {
     [t]
   );
 
+  const eventStatusLabels = useMemo<Record<string, string>>(
+    () => ({
+      '1': t('eventmap.Applied', 'Ansökt'),
+      '2': t('eventmap.ApprovedByRegion', 'Godkänd av distriktet'),
+      '3': t('eventmap.Approved', 'Godkänd'),
+      '4': t('eventmap.Created', 'Skapad'),
+      '5': t('eventmap.EntryOpened', 'Anmälan öppnad'),
+      '6': t('eventmap.EntryPaused', 'Anmälan pausad'),
+      '7': t('eventmap.EntryClosed', 'Anmälan stängd'),
+      '8': t('eventmap.Live', 'Live'),
+      '9': t('eventmap.Completed', 'Genomförd'),
+      '10': t('eventmap.Canceled', 'Inställt'),
+      '11': t('eventmap.Reported', 'Rapporterad'),
+    }),
+    [t]
+  );
+
   // ── Fetch all events from the club database (eventor + legacy) ──
   useEffect(() => {
     let cancelled = false;
@@ -260,6 +280,7 @@ const EventMap = observer(() => {
           startCount: r.startCount,
           url: r.url ?? '',
           source: r.source,
+          eventStatus: r.eventStatus ?? null,
         }));
 
         if (!cancelled) {
@@ -363,6 +384,7 @@ const EventMap = observer(() => {
         startCount: feature.get('startCount') as number | null,
         url: feature.get('url') as string,
         classificationId: feature.get('classificationId') as string | null,
+        eventStatus: feature.get('eventStatus') as string | null,
       });
     });
 
@@ -388,6 +410,7 @@ const EventMap = observer(() => {
         url: ev.url,
         classificationId: ev.classificationId,
         source: ev.source,
+        eventStatus: ev.eventStatus,
       });
       // Legacy events use a distinct colour so they stand out from Eventor events.
       f.setStyle(markerStyle(ev.startCount ?? 0, ev.source === 'legacy' ? LEGACY_COLOR : MARKER_COLOR));
@@ -486,6 +509,11 @@ const EventMap = observer(() => {
               {popup.classificationId && classLabels[popup.classificationId] && (
                 <div style={{ fontSize: 12, color: '#777', marginBottom: 8 }}>
                   {classLabels[popup.classificationId]}
+                </div>
+              )}
+              {popup.eventStatus != null && eventStatusLabels[popup.eventStatus] && (
+                <div style={{ fontSize: 12, color: '#777', marginBottom: 8 }}>
+                  {t('eventmap.Status', 'Status')}: <em>{eventStatusLabels[popup.eventStatus]}</em>
                 </div>
               )}
               {popup.url && (

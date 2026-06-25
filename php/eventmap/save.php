@@ -65,13 +65,16 @@ foreach ($input->events as $i => $e) {
   $url = (isset($e->url) && trim($e->url) !== '')
     ? "'" . \db\mysql_real_escape_string($e->url) . "'"
     : 'NULL';
+  $eventStatus = (isset($e->eventStatus) && trim((string)$e->eventStatus) !== '')
+    ? "'" . \db\mysql_real_escape_string((string)$e->eventStatus) . "'"
+    : 'NULL';
 
   $sql = sprintf(
-    "INSERT INTO EVENTMAP_EVENTS (EVENT_ID, SOURCE, NAME, EVENT_DATE, CLASSIFICATION_ID, LONGITUDE, LATITUDE, START_COUNT, URL, ORDER_BY) " .
-    "VALUES ('%s', '%s', '%s', %s, %s, %F, %F, %s, %s, %d) " .
-    "ON DUPLICATE KEY UPDATE NAME = '%s', EVENT_DATE = %s, CLASSIFICATION_ID = %s, LONGITUDE = %F, LATITUDE = %F, START_COUNT = %s, URL = %s, ORDER_BY = %d",
-    $eventId, $source, $name, $date, $classificationId, $longitude, $latitude, $startCount, $url, $orderBy,
-    $name, $date, $classificationId, $longitude, $latitude, $startCount, $url, $orderBy
+    "INSERT INTO EVENTMAP_EVENTS (EVENT_ID, SOURCE, NAME, EVENT_DATE, CLASSIFICATION_ID, LONGITUDE, LATITUDE, START_COUNT, URL, ORDER_BY, EVENT_STATUS) " .
+    "VALUES ('%s', '%s', '%s', %s, %s, %F, %F, %s, %s, %d, %s) " .
+    "ON DUPLICATE KEY UPDATE NAME = '%s', EVENT_DATE = %s, CLASSIFICATION_ID = %s, LONGITUDE = %F, LATITUDE = %F, START_COUNT = %s, URL = %s, ORDER_BY = %d, EVENT_STATUS = %s",
+    $eventId, $source, $name, $date, $classificationId, $longitude, $latitude, $startCount, $url, $orderBy, $eventStatus,
+    $name, $date, $classificationId, $longitude, $latitude, $startCount, $url, $orderBy, $eventStatus
   );
 
   \db\mysql_query($sql) || trigger_error(sprintf('SQL-Error (%s)', substr($sql, 0, 1024)), E_USER_ERROR);
