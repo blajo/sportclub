@@ -31,8 +31,9 @@ import {
 } from '@ant-design/icons';
 import React from 'react';
 import { styled } from 'styled-components';
+import EventorIcon from './eventorIcon.svg?react';
 
-const StyledImg = styled.img`
+const StyledEventorIcon = styled(EventorIcon)`
   vertical-align: middle;
 `;
 
@@ -139,16 +140,16 @@ const MaterialIcon = ({ icon, fontSize, marginRight }: IMaterialIconProps) => {
       return <LoadingOutlined style={{ verticalAlign: 'middle', fontSize: fontSize }} />;
     case 'EventorIcon':
       return (
-        <StyledImg
-          src="https://eventor.orientering.se/Content/Images/FederationWebsiteIcon.png"
+        <StyledEventorIcon
           width={fontSize}
           height={fontSize}
-          alt="SOFT"
+          role="img"
+          aria-label="SOFT"
           style={{ marginRight: marginRight }}
         />
       );
     case 'EventMapIcon':
-     return <PushpinOutlined style={{ verticalAlign: 'middle', fontSize: fontSize }} />;
+      return <PushpinOutlined style={{ verticalAlign: 'middle', fontSize: fontSize }} />;
     default:
       return icon;
   }
