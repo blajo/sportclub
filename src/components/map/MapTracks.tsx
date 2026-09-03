@@ -284,8 +284,8 @@ const MapTracks = () => {
       .catch(() => setSubmittable(false));
   }, [form, tracks]);
 
-  if (!sessionModel.loggedIn) {
-    return <div>t('map.requireLogin')</div>;
+  if (clubModel.map?.requireLogin && !sessionModel.loggedIn) {
+    return <div>{t('map.requireLogin')}</div>;
   }
 
   return (
