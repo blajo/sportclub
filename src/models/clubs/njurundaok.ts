@@ -15,6 +15,7 @@ const njurundaok: IMobxClubModelProps = {
     defaultZoomLevel: 10,
     saveUrl: 'https://njurundaok.se/map/tracks/save.php',
     queryUrl: 'https://njurundaok.se/map/tracks/jsonMapTracksQuery.php',
+    requireLogin: true,
     layers: [
       {
         type: 'group',
