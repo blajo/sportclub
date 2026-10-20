@@ -342,8 +342,8 @@ const OSMOrienteeringMap = observer(
         map.addControl(homeExtent.current);
 
         if (useAllWidgets) {
-          // Kontrollera om användaren är inloggad
-          if (sessionModel.loggedIn) {
+          // Fullscreen requires login unless the club config allows anonymous map access
+          if (!clubModel.map?.requireLogin || sessionModel.loggedIn) {
             map.addControl(new FullScreen());
           }
           map.addControl(new LayerListControl({ setLayerListVisible }));

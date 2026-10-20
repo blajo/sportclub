@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { styled } from 'styled-components';
 import { useMobxStore } from '../../utils/mobxStore';
 import MapTracksLayers from './MapTracksLayers';
@@ -13,14 +14,15 @@ const MapContainer = styled.div`
 `;
 
 const Maps = () => {
+  const { t } = useTranslation();
   const { globalStateModel, clubModel, sessionModel } = useMobxStore();
 
   useEffect(() => {
     globalStateModel.setGraphics(['calendar', 'event'], []);
   }, [globalStateModel]);
 
-  if (!sessionModel.loggedIn) {
-    return <div>t('map.requireLogin')</div>;
+  if (clubModel.map?.requireLogin && !sessionModel.loggedIn) {
+    return <div>{t('map.requireLogin')}</div>;
   }
 
   return (
